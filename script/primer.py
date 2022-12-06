@@ -47,8 +47,6 @@ df1 = pd.read_csv('{0}/blastn_{1}_MP.csv'.format(cwd,folder),  sep='\t', names=[
 
 Subtype = folder
 
-#Gene = "MP"
-
 def discard (Subtype):
     if Subtype == "H3" or "H1":
         return "InfB"
@@ -59,8 +57,8 @@ Discard = []
 Discard.append(discard(Subtype))
 
 
-#DATA MINGELING
-#df1 = df1.iloc[:1]
+#DATA MINGELING NAD BASIC CALCULATIONS
+
 df1 = df1.iloc[:,0:12]
 df1['Primer_Length'] = df1['Primer'].map(primer_dict)
 df1["Primer_Length/Alignment_length_dif"] = df1["Primer_Length"] - df1["Alignment_Length"]
@@ -69,7 +67,6 @@ df1["ID"] = df1['Primer'].astype(str) +"_"+ df1["SequenceID"].astype(str)
 df1["Length_Para"] = df1["Primer_Length"] - df1["Alignment_Length"]
 
 df1 = df1.sort_values("Score", ascending=False).drop_duplicates('ID').sort_index()
-#df1 = df1.sort_values("Primer_Length/Alignment_length_dif", ascending=True).drop_duplicates('ID').sort_index()
 
 df1["Match(%)"] = ((df1["Primer_Length"] - (df1["Mismatches"] + df1["Gaps"] + ((df1["Primer_Length"]) - df1["Alignment_Length"]))) / df1["Primer_Length"])
 df1["Total_Mis"] = df1["Mismatches"] + df1["Gaps"] + df1["Primer_Length/Alignment_length_dif"]
@@ -77,5 +74,5 @@ df1["Total_Mis"] = df1["Mismatches"] + df1["Gaps"] + df1["Primer_Length/Alignmen
 df1 = df1[~df1.Primer.str.contains('|'.join(Discard))]
 
 #SAVE FINAL DATAFRAME TO CSV
+
 df1.to_csv('primer_{}_MP.csv'.format(folder), index=False)
-#df1.to_csv('/Users/rasmuskopperudriis/Coding/projects/influenza-aligner/python_results.csv')
