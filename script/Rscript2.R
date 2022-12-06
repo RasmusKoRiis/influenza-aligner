@@ -19,11 +19,9 @@ csv_file <- paste(startpath,subfolder,csv_name, sep="")
 title <- "Total Primer Mismatch and Gaps for "
 
 
-
-#primer_check <- read.csv(file = "/Users/rasmuskopperudriis/Coding/projects/influenza-aligner/python_results.csv")
 primer_check <- read.csv(file = csv_file)
 
-filter_data <- primer_check[, c(1,2,17)]
+filter_data <- primer_check[, c(1,2,16,18)]
 
 filter_data$SequenceID = as.character(as.numeric(filter_data$SequenceID)) 
 
@@ -31,7 +29,7 @@ plot2 <- ggplot(data = filter_data, aes(Primer, SequenceID))+
   geom_tile(aes(fill = Total_Mis), color="white")
 
 plot2 <- plot2 + 
-  geom_text(aes(label = Total_Mis), size = 3.1, color = "#F7F7FF") +
+  geom_text(aes(label = Length_Para), size = 3.1, color = "#F7F7FF") +
   scale_fill_gradient(          # adjust the fill color of the tiles
     low = "blue",
     high = "orange")+

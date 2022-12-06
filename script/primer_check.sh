@@ -33,8 +33,8 @@ subtype_folder=$(basename $(pwd))
 for i in "${arr[@]}"
 do
     blastn -task blastn-short \
-    -gapopen 1 \
-    -penalty -3 \
+    -gapopen 3 \
+    -penalty -1 \
     -outfmt 6 \
     -query ${primerDB}/primer_database_with_duplicate_names_v1.fasta \
     -subject ${i}.fa > blastn_H3_${i}.csv
@@ -44,9 +44,9 @@ python3 ${script_dir}/primer.py
 
 Rscript ${script_dir}/Rscript2.R
 
-mv primer_${i}.csv ${results}
-mv blastn_${i}.csv ${results}
+mv *csv ${results}
 mv *pdf ${results}
+
 
 done
 
@@ -58,8 +58,8 @@ cd ${H1_seq}
 for i in "${arr[@]}"
 do
     blastn -task blastn-short \
-    -gapopen 1 \
-    -penalty -3 \
+    -gapopen 3 \
+    -penalty -1 \
     -outfmt 6 \
     -query ${primerDB}/primer_database_with_duplicate_names_v1.fasta \
     -subject ${i}.fa > blastn_H1_${i}.csv

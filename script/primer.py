@@ -66,12 +66,13 @@ df1['Primer_Length'] = df1['Primer'].map(primer_dict)
 df1["Primer_Length/Alignment_length_dif"] = df1["Primer_Length"] - df1["Alignment_Length"]
 df1["Primer_Length/Alignment_length_dif"] = df1["Primer_Length/Alignment_length_dif"].abs()
 df1["ID"] = df1['Primer'].astype(str) +"_"+ df1["SequenceID"].astype(str)
+df1["Length_Para"] = df1["Primer_Length"] - df1["Alignment_Length"]
 
 df1 = df1.sort_values("Score", ascending=False).drop_duplicates('ID').sort_index()
 #df1 = df1.sort_values("Primer_Length/Alignment_length_dif", ascending=True).drop_duplicates('ID').sort_index()
 
 df1["Match(%)"] = ((df1["Primer_Length"] - (df1["Mismatches"] + df1["Gaps"] + ((df1["Primer_Length"]) - df1["Alignment_Length"]))) / df1["Primer_Length"])
-df1["Total_Mis"] = df1["Mismatches"] + df1["Gaps"]
+df1["Total_Mis"] = df1["Mismatches"] + df1["Gaps"] + df1["Primer_Length/Alignment_length_dif"]
 
 df1 = df1[~df1.Primer.str.contains('|'.join(Discard))]
 
